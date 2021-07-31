@@ -1,0 +1,24 @@
+{
+  "name": "email-exercise",
+  "version": "1.0.0",
+  "description": "[![Mailbird](https://www.getmailbird.com/wp-content/themes/MailbirdTheme/assets/images/header-mailbird-normal.svg)](https://www.getmailbird.com)",
+  "main": "\u001b[D\u001b[D\u001b[D\u001bapp\u001b[3~\u001b[3~",
+  "dependencies": {
+    "express": "^4.17.1",
+    "imap": "^0.8.19"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mario-j/email-exercise.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mario-j/email-exercise/issues"
+  },
+  "homepage": "https://github.com/mario-j/email-exercise#readme"
+}
