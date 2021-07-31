@@ -41,7 +41,7 @@
     background-color: rgb(224, 57, 71);
     color: white;
     font-weight: 600;
-    font-size:24px;
+    font-size: 24px;
   }
 
   .toolbar img {
@@ -301,19 +301,89 @@
 
   .header {
     font-size: 24px;
-    font-weight:500;
+    font-weight: 500;
   }
 </style>
 
 <!-- Toolbar -->
 <div class="toolbar" role="banner">
-  <!-- <img style="background:transparent" width="100" alt="Email Logo"
-    src="https://i.pinimg.com/originals/c3/0e/ee/c30eee73a5e3d31b072f555985175165.jpg" /> -->
   <span>Email Exercise</span>
 </div>
 
-<div class="col-sm-12 col-md-12 col-lg-12">
-  <mat-card class="col-sm-6 col-md-6 col-lg-6">
-    <div class="header">Header</div>
-  </mat-card>
+<div class="row col-sm-12 col-md-12 col-lg-12">
+  <div class="col-sm-6 col-md-6 col-lg-6">
+    <mat-card style=margin:20px>
+      <div class="row col-sm-12 col-md-12 col-lg-12">
+        <div class="header">Header</div>
+        <div class="row col-sm-6 col-md-6 col-lg-6">
+          <mat-form-field appearance="outline">
+            <mat-label>Server Type</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let server of servers" [value]="server.value">
+                {{server.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <br />
+
+          <mat-form-field appearance="outline">
+            <mat-label>Server</mat-label>
+            <input matInput placeholder="imap.gmx.com">
+          </mat-form-field>
+
+          <br />
+
+          <mat-form-field appearance="outline">
+            <mat-label>Port</mat-label>
+            <input matInput placeholder="993" type="number">
+          </mat-form-field>
+        </div>
+
+        <div class="row col-sm-6 col-md-6 col-lg-6">
+          <mat-form-field appearance="outline">
+            <mat-label>Encryption</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let encryption of encryptions" [value]="encryption.value">
+                {{encryption.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <br />
+
+          <mat-form-field appearance="outline">
+            <mat-label>Username</mat-label>
+            <input matInput placeholder="DonaldMcGriddle@gmail.com">
+          </mat-form-field>
+
+          <br />
+
+          <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+            <input matInput type="password">
+          </mat-form-field>
+        </div>
+
+        <div style="display:flex; justify-content: center;">
+          <button mat-stroked-button class="col-sm-4 col-md-4 col-lg-4"
+            style="background-color: #F0F0F0;">Start</button>
+        </div>
+      </div>
+    </mat-card>
+
+
+    <mat-card style="margin:20px">
+      <div class="row col-sm-12 col-md-12 col-lg-12">
+        <div class="header">Messages</div>
+      </div>
+    </mat-card>
+  </div>
+
+  <div class="col-sm-6 col-md-6 col-lg-6">
+    <mat-card style=margin:20px>
+      <div class="header">Body</div>
+      <div style="height:50vh"></div>
+    </mat-card>
+  </div>
 </div>
