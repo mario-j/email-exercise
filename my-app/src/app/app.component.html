@@ -318,10 +318,9 @@
         <div class="row col-sm-6 col-md-6 col-lg-6">
           <mat-form-field appearance="outline">
             <mat-label>Server Type</mat-label>
-            <mat-select>
-              <mat-option *ngFor="let server of servers" [value]="server.value">
-                {{server.value}}
-              </mat-option>
+            <mat-select [(value)]="selectedServerType" (selectionChange)="updateSelectedServerType($event.value)">
+              <mat-option value="IMAP">IMAP</mat-option>
+              <mat-option value="POP3">POP3</mat-option>
             </mat-select>
           </mat-form-field>
 
@@ -329,24 +328,28 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Server</mat-label>
-            <input matInput placeholder="imap.gmx.com">
+            <input matInput placeholder="imap.gmx.com" [formControl]="server">
+            <mat-error *ngIf="server.errors?.required">
+              Server is <strong>required</strong>
+            </mat-error>
           </mat-form-field>
 
           <br />
 
           <mat-form-field appearance="outline">
             <mat-label>Port</mat-label>
-            <input matInput placeholder="993" type="number">
+            <input matInput placeholder="993" type="number" [formControl]="port">
+            <mat-error *ngIf="port.errors?.required">
+              Port is <strong>required</strong>
+            </mat-error>
           </mat-form-field>
         </div>
 
         <div class="row col-sm-6 col-md-6 col-lg-6">
           <mat-form-field appearance="outline">
             <mat-label>Encryption</mat-label>
-            <mat-select>
-              <mat-option *ngFor="let encryption of encryptions" [value]="encryption.value">
-                {{encryption.value}}
-              </mat-option>
+            <mat-select [(value)]="selectedEncryption" (selectionChange)="updateSelectedEncryption($event.value)">
+              <mat-option value="Unencrypted">Unencrypted</mat-option>
             </mat-select>
           </mat-form-field>
 
@@ -354,20 +357,30 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Username</mat-label>
-            <input matInput placeholder="DonaldMcGriddle@gmail.com">
+            <input matInput placeholder="DonaldMcGriddle@gmail.com" [formControl]="username">
+            <mat-error *ngIf="username.errors?.required && username.errors?.email">
+              Please enter a valid email address
+            </mat-error>
+            <mat-error *ngIf="username.errors?.required">
+              Email is <strong>required</strong>
+            </mat-error>
           </mat-form-field>
 
           <br />
 
           <mat-form-field appearance="outline">
             <mat-label>Password</mat-label>
-            <input matInput type="password">
+            <input matInput type="password" [formControl]="password">
+            <mat-error *ngIf="password.errors?.required">
+              Password is <strong>required</strong>
+            </mat-error>
           </mat-form-field>
         </div>
 
         <div style="display:flex; justify-content: center;">
+          <!-- [disabled]="!isValid()"></button> -->
           <button mat-stroked-button class="col-sm-4 col-md-4 col-lg-4"
-            style="background-color: #F0F0F0;">Start</button>
+            style="background-color: #F0F0F0;"  (click)="onStart()">Start</button>
         </div>
       </div>
     </mat-card>

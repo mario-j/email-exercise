@@ -35,6 +35,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import {FormControl, FormGroupDirective, FormsModule, NgForm, Validators, ReactiveFormsModule, FormGroup,} from '@angular/forms';
+import {ErrorStateMatcher} from '@angular/material/core';
 
 import { AppComponent } from './app.component';
 
@@ -77,9 +79,17 @@ import { AppComponent } from './app.component';
     MatSnackBarModule,
     MatTableModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [
+    ErrorStateMatcher,
+    FormsModule,
+    Validators,
+    FormControl,
+    FormGroupDirective,
+    NgForm
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
