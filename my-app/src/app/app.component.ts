@@ -26,7 +26,8 @@ export class AppComponent {
       console.log("loadedEmail", loadedEmail);
       let emails = [...this.emails];
       emails.push(loadedEmail);
-      this.emails = [...this.emails, loadedEmail];
+      var unsortedEmails = [...this.emails, loadedEmail]
+      this.emails = unsortedEmails.sort((a: Email, b: Email) => new Date(b.date!!).getTime() - new Date(a.date!!).getTime());
     });
   }
 
@@ -55,11 +56,11 @@ export class AppComponent {
     var selectedEncryption = this.selectedEncryption;
 
     //TMP
-    port = 993;
-    server = 'imap.gmail.com';
-    username = 'donaldmcgriddle@gmail.com';
-    password = 'mailbird2021';
-    selectedServerType = 'imap';
+    // port = 993;
+    // server = 'imap.gmail.com';
+    // username = 'donaldmcgriddle@gmail.com';
+    // password = 'mailbird2021';
+    // selectedServerType = 'imap';
 
     // port = 995;
     // server = 'pop.gmail.com';

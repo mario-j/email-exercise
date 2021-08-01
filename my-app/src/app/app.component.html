@@ -88,7 +88,7 @@
   <div class="col-sm-6 col-md-6 col-lg-6">
     <mat-card style=margin:20px>
       <div class="row col-sm-12 col-md-12 col-lg-12">
-        <div class="header">Header</div>
+        <div class="header">Configuration</div>
         <div class="row col-sm-6 col-md-6 col-lg-6">
           <mat-form-field appearance="outline">
             <mat-label>Server Type</mat-label>
@@ -102,7 +102,7 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Server</mat-label>
-            <input matInput placeholder="imap.gmx.com" [formControl]="server">
+            <input matInput placeholder="imap.gmail.com" [formControl]="server">
             <mat-error *ngIf="server.errors?.required">
               Server is <strong>required</strong>
             </mat-error>
@@ -124,6 +124,8 @@
             <mat-label>Encryption</mat-label>
             <mat-select [(value)]="selectedEncryption" (selectionChange)="updateSelectedEncryption($event.value)">
               <mat-option value="Unencrypted">Unencrypted</mat-option>
+              <mat-option value="SSLTLS">SSL/TLS</mat-option>
+              <mat-option value="STARTTLS">STARTTLS</mat-option>
             </mat-select>
           </mat-form-field>
 
