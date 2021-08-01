@@ -48,15 +48,23 @@ export class AppComponent {
 
   loadEmails() {
     this.emails = [];
+    this.selectedEmail = null;
+    this.bodyContainer!!.nativeElement.innerHTML = null;
     var port = this.port.value;
     var server = this.server.value;
     var username = this.username.value.toString();
     var password = this.password.value;
-    var selectedServerType = this.selectedServerType;
-    var selectedEncryption = this.selectedEncryption;
+    var selectedServerType = this.selectedServerType.toLowerCase();
+    var selectedEncryption = this.selectedEncryption.toLowerCase();
 
     //TMP
     // port = 993;
+    // server = 'imap.gmail.com';
+    // username = 'donaldmcgriddle@gmail.com';
+    // password = 'mailbird2021';
+    // selectedServerType = 'imap';
+
+    // port = 143;
     // server = 'imap.gmail.com';
     // username = 'donaldmcgriddle@gmail.com';
     // password = 'mailbird2021';
@@ -67,8 +75,8 @@ export class AppComponent {
     // username = 'donaldmcgriddle@gmail.com';
     // password = 'mailbird2021';
     // selectedServerType = 'pop3';
-
-    this.emailService.loadEmails(username, password, port, server, selectedServerType)
+    
+    this.emailService.loadEmails(username, password, port, server, selectedServerType, selectedEncryption)
   }
 
   updateSelectedEncryption(value: string) {

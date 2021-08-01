@@ -5,6 +5,7 @@
   "main": "\u001b[D\u001b[D\u001b[D\u001bapp\u001b[3~\u001b[3~",
   "dependencies": {
     "express": "^4.17.1",
+    "forever": "^4.0.1",
     "imap": "^0.8.19",
     "mailparser": "^3.2.0",
     "mailpop3": "^0.1.0",

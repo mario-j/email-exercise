@@ -8,33 +8,47 @@ var io = require('socket.io')(server, {
 });
 
 io.on('connection', (socket) => {
-
-    socket.on('load-emails', (username, password, port, server, selectedServerType) => {
+    console.log('connected');
+    socket.on('load-emails', (username, password, port, server, selectedServerType, selectedEncryption) => {
         if (selectedServerType.toLowerCase() == "imap") {
-            loadEmailsImap(username, password, port, server);
+            loadEmailsImap(username, password, port, server, selectedEncryption);
         } else if (selectedServerType.toLowerCase() == "pop3") {
-            loadEmailsPop3(username, password, port, server);
+            loadEmailsPop3(username, password, port, server, selectedEncryption);
         }
-    })
-
-    console.log('user connected');
-    socket.on('start', () => {
-        console.log("started");
-
-
     })
 });
 
 function loadEmailsPop3(username, password, port, server) {
     var Client = require('node-poplib-gowhich').Client;
-    var client = new Client({
-        hostname: server,
-        port: port,
-        tls: true,
-        mailparser: true,
-        username: username,
-        password: password
-    });
+
+    if (selectedEncryption == "ssltls") {
+        var client = new Client({
+            hostname: server,
+            port: port,
+            tls: true,
+            mailparser: true,
+            username: username,
+            password: password
+        });
+    } else if (selectedEncryption == "unencrypted") {
+        var client = new Client({
+            hostname: server,
+            port: port,
+            tls: false,
+            mailparser: true,
+            username: username,
+            password: password
+        });
+    } else if (selectedEncryption == "starttls") {
+        var client = new Client({
+            hostname: server,
+            port: port,
+            tls: true,
+            mailparser: true,
+            username: username,
+            password: password
+        });
+    }
     client.connect(function () {
         client.retrieveAll(function (err, messages) {
             messages.forEach(function (message) {
@@ -50,21 +64,44 @@ function loadEmailsPop3(username, password, port, server) {
     })
 }
 
-function loadEmailsImap(username, password, port, server) {
+function loadEmailsImap(username, password, port, server, selectedEncryption) {
     var Imap = require('imap'),
         inspect = require('util').inspect;
     const simpleParser = require('mailparser').simpleParser;
 
-    var imap = new Imap({
-        user: username,
-        password: password,
-        host: server,
-        port: port,
-        tls: true,
-        tlsOptions: {
-            servername: server,
-        }
-    })
+    if (selectedEncryption == "ssltls") {
+        var imap = new Imap({
+            user: username,
+            password: password,
+            host: server,
+            port: port,
+            tls: true,
+            tlsOptions: {
+                servername: server,
+            }
+        })
+    } else if (selectedEncryption == "unencrypted") {
+        var imap = new Imap({
+            user: username,
+            password: password,
+            host: server,
+            port: port,
+            tls: false
+        })
+
+    } else if (selectedEncryption == "starttls") {
+        var imap = new Imap({
+            user: username,
+            password: password,
+            host: server,
+            port: port,
+            tls: true,
+            autotls: "always",
+            tlsOptions: {
+                servername: server,
+            }
+        })
+    }
 
     imap.once('ready', function () {
         console.log("ready");
@@ -84,23 +121,15 @@ function loadEmailsImap(username, password, port, server) {
                     io.emit('loaded-emails', { from: from, subject: subject, date: date, body: body });
                 });
             })
-            // this will occurs when any error occurs while fetching emails
+
             f.on('error', function (err) {
                 console.log(err)
-            })
-
-            f.on('end', function () {
-
             })
         })
     })
 
     imap.once('error', function (err) {
         console.log(err);
-    });
-
-    imap.once('end', function () {
-        console.log('Connection ended');
     });
 
     imap.connect()
