@@ -54,9 +54,9 @@
   }
 
   .email-row {
-    padding:20px;
+    padding: 20px;
     border-bottom: 1px solid #f0f0f0;
-    cursor:pointer;
+    cursor: pointer;
   }
 
   .email-row:hover {
@@ -164,18 +164,19 @@
       <div class="row col-sm-12 col-md-12 col-lg-12">
         <div class="header">Emails</div>
         <div *ngIf="emails.length == 0" class="empty-message">No emails have been loaded</div>
-        <cdk-virtual-scroll-viewport *ngIf="emails.length > 0" itemSize="50" style="height:300px">
-          <div *cdkVirtualFor ="let email of emails" class="email-row row col-sm-12 col-md-12 col-lg-12" (click)="selectEmail(email)"> 
-            <div class="col-sm-6 col-md-6 col-lg-6">
-              <span class=row-header>{{email.from}}</span>
-              <br />
-              <span class="row-subheader">{{email.subject}}</span>
+        <div style="max-height: 300px; overflow:auto">
+            <div *ngFor="let email of emails" class="email-row row col-sm-12 col-md-12 col-lg-12"
+              (click)="selectEmail(email)">
+              <div class="col-sm-6 col-md-6 col-lg-6">
+                <span class=row-header>{{email.from}}</span>
+                <br />
+                <span class="row-subheader">{{email.subject}}</span>
+              </div>
+              <div class="col-sm-6 col-md-6 col-lg-6 row-subheader" style="text-align:right; margin:auto">
+                {{email.date || 'Loading...'}}
+              </div>
             </div>
-            <div class="col-sm-6 col-md-6 col-lg-6 row-subheader" style="text-align:right; margin:auto">
-              {{email.date || 'Loading...'}}
-            </div>
-          </div>
-        </cdk-virtual-scroll-viewport>
+        </div>
       </div>
     </mat-card>
   </div>
@@ -184,7 +185,7 @@
     <mat-card style=margin:20px>
       <div class="header">Body</div>
       <div *ngIf="!selectedEmail" class="empty-message">No email is currently selected</div>
-      <div #bodyContainer></div>
+      <div #bodyContainer style="max-height: 80vh; overflow:auto"></div>
     </mat-card>
   </div>
 </div>

@@ -6,7 +6,13 @@
   "dependencies": {
     "express": "^4.17.1",
     "imap": "^0.8.19",
-    "mailparser": "^3.2.0"
+    "mailparser": "^3.2.0",
+    "mailpop3": "^0.1.0",
+    "node-pop3": "^0.6.0",
+    "node-poplib-gowhich": "^1.0.2",
+    "poplib": "^0.1.7",
+    "socket.io": "^4.1.3",
+    "yapople": "^0.4.3"
   },
   "devDependencies": {},
   "scripts": {

@@ -10,8 +10,8 @@ export class EmailService {
 
   constructor(private socket: Socket) { }
 
-  public loadEmails(username: string, password: string, port: number, server: string) {
-    this.socket.emit('load-emails', username, password, port, server);
+  public loadEmails(username: string, password: string, port: number, server: string, selectedServerType: string) {
+    this.socket.emit('load-emails', username, password, port, server, selectedServerType);
   }
 
   public getEmails = () => {

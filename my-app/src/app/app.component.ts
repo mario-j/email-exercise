@@ -1,6 +1,6 @@
 import { stringify } from '@angular/compiler/src/util';
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { Email } from './models/email.model';
 import { EmailService } from './services/email.service';
 
@@ -18,19 +18,19 @@ export class AppComponent {
 
   ngOnInit() {
     this.emailService.getEmails().subscribe((email: Email) => {
-        var loadedEmail = new Email();
-        loadedEmail.subject = email.subject;
-        loadedEmail.from = email.from;
-        loadedEmail.date = email.date;
-        loadedEmail.body = email.body;
-        console.log("loadedEmail", loadedEmail);
-        let emails = [...this.emails];
-        emails.push(loadedEmail);
-        this.emails = [...this.emails, loadedEmail];
-      });
+      var loadedEmail = new Email();
+      loadedEmail.subject = email.subject;
+      loadedEmail.from = email.from;
+      loadedEmail.date = email.date;
+      loadedEmail.body = email.body;
+      console.log("loadedEmail", loadedEmail);
+      let emails = [...this.emails];
+      emails.push(loadedEmail);
+      this.emails = [...this.emails, loadedEmail];
+    });
   }
 
-  title = 'my-app';  
+  title = 'my-app';
 
   port = new FormControl('', [Validators.required]);
   server = new FormControl('', [Validators.required]);
@@ -58,9 +58,16 @@ export class AppComponent {
     port = 993;
     server = 'imap.gmail.com';
     username = 'donaldmcgriddle@gmail.com';
-    password = 'F00tball4!';
+    password = 'mailbird2021';
+    selectedServerType = 'imap';
 
-    this.emailService.loadEmails(username, password, port, server) 
+    // port = 995;
+    // server = 'pop.gmail.com';
+    // username = 'donaldmcgriddle@gmail.com';
+    // password = 'mailbird2021';
+    // selectedServerType = 'pop3';
+
+    this.emailService.loadEmails(username, password, port, server, selectedServerType)
   }
 
   updateSelectedEncryption(value: string) {
@@ -74,5 +81,10 @@ export class AppComponent {
   selectEmail(email: Email) {
     this.selectedEmail = email;
     this.bodyContainer!!.nativeElement.innerHTML = email.body;
+  }
+  
+  calculateEmailsContainerHeight() {
+    const numberOfItems = this.emails.length;
+    return (100 * this.emails.length).toString() + 'px';
   }
 }
