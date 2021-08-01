@@ -38,6 +38,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import {FormControl, FormGroupDirective, FormsModule, NgForm, Validators, ReactiveFormsModule, FormGroup,} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 import { AppComponent } from './app.component';
 
@@ -84,6 +85,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     MatSortModule,
     MatPaginatorModule,
     ReactiveFormsModule,
+    ScrollingModule,
     SocketIoModule.forRoot(config)
   ],
   providers: [

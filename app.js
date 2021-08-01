@@ -28,8 +28,9 @@ io.on('connection', (socket) => {
         imap.once('ready', function () {
             console.log("ready");
             openInbox(function (err, box) {
-                var f = imap.seq.fetch('1:3', {
-                    bodies: 'HEADER.FIELDS (FROM TO SUBJECT DATE)',
+                console.log("test", box.messages.total);
+                var f = imap.seq.fetch('1:'+box.messages.total, {
+                    bodies: '',
                     struct: true
                 });
 
@@ -38,8 +39,9 @@ io.on('connection', (socket) => {
                         var parsed = await simpleParser(stream)
                         var from = parsed.from.value[0].name.toString();
                         var subject = parsed.subject.toString();
-                        var date = parsed.date.toString();
-                        io.emit('loaded-emails', { from: from, subject: subject, date: date});
+                        var date = parsed.date.toDateString() + " " + parsed.date.toLocaleTimeString();
+                        var body = parsed.html;
+                        io.emit('loaded-emails', { from: from, subject: subject, date: date, body: body});
                     });
                 })
                 // this will occurs when any error occurs while fetching emails

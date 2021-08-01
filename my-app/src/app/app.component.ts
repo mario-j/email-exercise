@@ -1,6 +1,7 @@
 import { stringify } from '@angular/compiler/src/util';
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+import { Email } from './models/email.model';
 import { EmailService } from './services/email.service';
 
 @Component({
@@ -11,11 +12,21 @@ import { EmailService } from './services/email.service';
 export class AppComponent {
   constructor(private emailService: EmailService) { }
 
+  emails: Email[] = [];
+  selectedEmail: Email | null = null;
+  @ViewChild('bodyContainer') bodyContainer: ElementRef | undefined;
+
   ngOnInit() {
-    this.emailService
-      .getEmails()
-      .subscribe((from: string, subject: string, date: string) => {
-        console.log("emails made it back to the component", from, subject, date);
+    this.emailService.getEmails().subscribe((email: Email) => {
+        var loadedEmail = new Email();
+        loadedEmail.subject = email.subject;
+        loadedEmail.from = email.from;
+        loadedEmail.date = email.date;
+        loadedEmail.body = email.body;
+        console.log("loadedEmail", loadedEmail);
+        let emails = [...this.emails];
+        emails.push(loadedEmail);
+        this.emails = [...this.emails, loadedEmail];
       });
   }
 
@@ -35,6 +46,7 @@ export class AppComponent {
   }
 
   loadEmails() {
+    this.emails = [];
     var port = this.port.value;
     var server = this.server.value;
     var username = this.username.value.toString();
@@ -57,5 +69,10 @@ export class AppComponent {
 
   updateSelectedServerType(value: string) {
     this.selectedServerType = value;
+  }
+
+  selectEmail(email: Email) {
+    this.selectedEmail = email;
+    this.bodyContainer!!.nativeElement.innerHTML = email.body;
   }
 }

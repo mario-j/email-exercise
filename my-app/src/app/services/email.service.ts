@@ -16,9 +16,8 @@ export class EmailService {
 
   public getEmails = () => {
     return Observable.create((observer: any) => {
-            this.socket.on('loaded-emails', (from: string, subject: string, date: string) => {
-              console.log("email made it to the service", from, subject, date);
-                observer.next(from, subject, date);
+            this.socket.on('loaded-emails', (email: Email) => {
+                observer.next(email);
             });
     });
 }
