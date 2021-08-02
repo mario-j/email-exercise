@@ -1,3 +1,25 @@
+const expressTest = require('express');
+const http = require('http');
+const path = require('path');
+const simpleParser = require('mailparser').simpleParser;
+var Client = require('node-poplib-gowhich').Client;
+
+const appTest = expressTest();
+
+const port = 4200;
+
+appTest.use(expressTest.static(__dirname + '/dist/my-app'));
+
+appTest.get('/*', (req, res) => res.sendFile(path.join(__dirname)));
+
+const serverTest = http.createServer(appTest);
+
+serverTest.listen(port, () => console.log(`App running on: http://localhost:${port}`));
+
+
+
+
+
 const express = require("express")
 var app = express();
 var server = app.listen(3000);
@@ -19,7 +41,6 @@ io.on('connection', (socket) => {
 });
 
 function loadEmailsPop3(username, password, port, server) {
-    var Client = require('node-poplib-gowhich').Client;
 
     if (selectedEncryption == "ssltls") {
         var client = new Client({
@@ -67,7 +88,6 @@ function loadEmailsPop3(username, password, port, server) {
 function loadEmailsImap(username, password, port, server, selectedEncryption) {
     var Imap = require('imap'),
         inspect = require('util').inspect;
-    const simpleParser = require('mailparser').simpleParser;
 
     if (selectedEncryption == "ssltls") {
         var imap = new Imap({
