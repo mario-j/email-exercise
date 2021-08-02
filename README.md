@@ -22,8 +22,6 @@ To test I created a dummy gmail account and entered the following configuration 
 <b>Encryption:</b> SSL/TSL<br />
 <b>Server:</b> imap.gmail.com <br />
 <b>Port:</b> 993 <br />
-<b>Username:</b> DonaldMcGriddle@gmail.com  <br />
-<b>Password:</b> mailbird2021
 
 The same applied for POP but with the server changed to <b>pop.gmail.com</b> and the port changed to <b>995</b> I enabled IMAP/POP access in order to access the inbox.
 
