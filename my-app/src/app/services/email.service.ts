@@ -21,4 +21,13 @@ export class EmailService {
             });
     });
 }
+
+public getErrors = () => {
+  return Observable.create((observer: any) => {
+          this.socket.on('err', (error: any) => {
+              console.log("error", error);
+              observer.next(error);
+          });
+  });
+}
 }

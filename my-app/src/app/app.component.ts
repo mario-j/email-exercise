@@ -15,6 +15,7 @@ export class AppComponent {
   emails: Email[] = [];
   selectedEmail: Email | null = null;
   @ViewChild('bodyContainer') bodyContainer: ElementRef | undefined;
+  @ViewChild('startError') startError: ElementRef | undefined;
 
   ngOnInit() {
     this.emailService.getEmails().subscribe((email: Email) => {
@@ -23,17 +24,29 @@ export class AppComponent {
       loadedEmail.from = email.from;
       loadedEmail.date = email.date;
       loadedEmail.body = email.body;
-      console.log("loadedEmail", loadedEmail);
       let emails = [...this.emails];
       emails.push(loadedEmail);
       var unsortedEmails = [...this.emails, loadedEmail]
       this.emails = unsortedEmails.sort((a: Email, b: Email) => new Date(b.date!!).getTime() - new Date(a.date!!).getTime());
     });
+
+    this.emailService.getErrors().subscribe((error: any) => {
+      console.log("error", error);
+      if (error.includes("AUTHENTICATIONFAILED")) {
+        this.startError!!.nativeElement.innerHTML = "Incorrect Credentials";
+      } else if (this.port.value != 993 || this.port.value != 995 || this.port.value != 143) {
+        this.startError!!.nativeElement.innerHTML = "Incorrect Port Number";
+      } else if (this.selectedEncryption.toLowerCase() == "unencrypted" && this.port.value != 143) {
+        this.startError!!.nativeElement.innerHTML = "The selected encryption type cannot be used with the selected port";
+      } else {
+        this.startError!!.nativeElement.innerHTML = "Error, please update the configuration and retry";
+      }
+    });
   }
 
   title = 'my-app';
 
-  port = new FormControl('', [Validators.required]);
+  port = new FormControl('', [Validators.required,]);
   server = new FormControl('', [Validators.required]);
   username = new FormControl('', [Validators.required, Validators.email]);
   password = new FormControl('', [Validators.required]);
@@ -47,6 +60,7 @@ export class AppComponent {
   }
 
   loadEmails() {
+    this.startError!!.nativeElement.innerHTML = null;
     this.emails = [];
     this.selectedEmail = null;
     this.bodyContainer!!.nativeElement.innerHTML = null;

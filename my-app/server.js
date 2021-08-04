@@ -1,25 +1,20 @@
-const expressTest = require('express');
+// Angular server
+
+const expressAngular = require('express');
 const http = require('http');
 const path = require('path');
 const simpleParser = require('mailparser').simpleParser;
 var Client = require('node-poplib-gowhich').Client;
 
-const appTest = expressTest();
-
+const appAngular = expressAngular();
 const port = 4200;
-
-appTest.use(expressTest.static(__dirname + '/dist/my-app'));
-
-appTest.get('/*', (req, res) => res.sendFile(path.join(__dirname)));
-
-const serverTest = http.createServer(appTest);
-
-serverTest.listen(port, () => console.log(`App running on: http://localhost:${port}`));
+appAngular.use(expressAngular.static(__dirname + '/dist/my-app'));
+appAngular.get('/*', (req, res) => res.sendFile(path.join(__dirname)));
+const serverAngular = http.createServer(appAngular);
+serverAngular.listen(port, () => console.log(`App running on: http://localhost:${port}`));
 
 
-
-
-
+//Socket IO server 
 const express = require("express")
 var app = express();
 var server = app.listen(3000);
@@ -41,7 +36,6 @@ io.on('connection', (socket) => {
 });
 
 function loadEmailsPop3(username, password, port, server) {
-
     if (selectedEncryption == "ssltls") {
         var client = new Client({
             hostname: server,
@@ -143,13 +137,15 @@ function loadEmailsImap(username, password, port, server, selectedEncryption) {
             })
 
             f.on('error', function (err) {
-                console.log(err)
+                console.log(err.textCode);
+                io.emit('err', err.textCode);
             })
         })
     })
 
     imap.once('error', function (err) {
-        console.log(err);
+        console.log(err.textCode);
+        io.emit('err', err.textCode);
     });
 
     imap.connect()

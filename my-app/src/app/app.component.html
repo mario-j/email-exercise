@@ -36,7 +36,7 @@
 
   .toolbar {
     height: 60px;
-    width:100vw;
+    width: 100vw;
     display: flex;
     align-items: center;
     background-color: rgb(224, 57, 71);
@@ -153,11 +153,12 @@
             </mat-error>
           </mat-form-field>
         </div>
-
         <div style="display:flex; justify-content: center;">
-          <!-- [disabled]="!isValid()"></button> -->
-          <button mat-stroked-button class="col-sm-4 col-md-4 col-lg-4"
-            style="background-color: #F0F0F0; cursor:pointer" (click)="loadEmails()">Start</button>
+          <button mat-stroked-button class="col-sm-4 col-md-4 col-lg-4" [disabled]="!isValid()"
+            style="background-color: #F0F0F0" (click)="loadEmails()">Start</button>
+        </div>
+        <div style="display:flex; justify-content: center;">
+          <mat-error #startError></mat-error>
         </div>
       </div>
     </mat-card>
@@ -168,17 +169,17 @@
         <div class="header">Emails</div>
         <div *ngIf="emails.length == 0" class="empty-message">No emails have been loaded</div>
         <div style="max-height: 300px; overflow:auto">
-            <div *ngFor="let email of emails" class="email-row row col-sm-12 col-md-12 col-lg-12"
-              (click)="selectEmail(email)">
-              <div class="col-sm-6 col-md-6 col-lg-6">
-                <span class=row-header>{{email.from}}</span>
-                <br />
-                <span class="row-subheader">{{email.subject}}</span>
-              </div>
-              <div class="col-sm-6 col-md-6 col-lg-6 row-subheader" style="text-align:right; margin:auto">
-                {{email.date || 'Loading...'}}
-              </div>
+          <div *ngFor="let email of emails" class="email-row row col-sm-12 col-md-12 col-lg-12"
+            (click)="selectEmail(email)">
+            <div class="col-sm-6 col-md-6 col-lg-6">
+              <span class=row-header>{{email.from}}</span>
+              <br />
+              <span class="row-subheader">{{email.subject}}</span>
             </div>
+            <div class="col-sm-6 col-md-6 col-lg-6 row-subheader" style="text-align:right; margin:auto">
+              {{email.date || 'Loading...'}}
+            </div>
+          </div>
         </div>
       </div>
     </mat-card>
